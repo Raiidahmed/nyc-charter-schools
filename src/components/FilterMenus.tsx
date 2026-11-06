@@ -7,6 +7,16 @@ import { FILTER_GROUPS } from './FilterGroups.tsx';
 
 type GroupId = keyof typeof GROUP_KEYS;
 
+/**
+ * Each dropdown lines up with the left edge of its button, and only moves
+ * left if it would otherwise run off the right side of the window.
+ */
+function alignDropdown(el: HTMLDivElement | null) {
+  if (!el) return;
+  const overflow = el.getBoundingClientRect().right - (window.innerWidth - 4);
+  if (overflow > 0) el.style.left = `${-overflow}px`;
+}
+
 /** The footer every filter panel shares. */
 export function FilterFooter({ onDone }: { onDone: () => void }) {
   const { clearFilters, matching, setListOpen } = useExplorer();
@@ -83,7 +93,7 @@ export function FilterMenus() {
               <ChevronDownIcon />
             </button>
             {open === id && (
-              <div id={panelId} className="dropdown" role="region" aria-label={`${label} filters`}>
+              <div id={panelId} ref={alignDropdown} className="dropdown" role="region" aria-label={`${label} filters`}>
                 <div className="dropdown-body">
                   <Component />
                 </div>

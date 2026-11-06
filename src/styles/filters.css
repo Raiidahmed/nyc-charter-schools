@@ -29,11 +29,6 @@
   box-shadow: var(--shadow-lg);
 }
 
-.filter-menu:nth-child(n + 3) .dropdown {
-  left: auto;
-  right: 0;
-}
-
 .dropdown-body {
   flex: 1;
   padding: 6px 16px 10px;

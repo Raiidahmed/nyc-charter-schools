@@ -206,6 +206,29 @@
   flex: none;
 }
 
+/* Second line: the search box, with the active filter chips beside it. */
+.topbar-second {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.topbar-second .search {
+  width: 320px;
+}
+
+.topbar-second .chips {
+  flex: 1;
+  min-width: 0;
+  min-height: 36px;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
 /* Chips row */
 .chips {
   display: flex;

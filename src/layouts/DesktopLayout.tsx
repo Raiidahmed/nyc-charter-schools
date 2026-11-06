@@ -46,11 +46,13 @@ export function DesktopLayout({ reviewersHidden, hideReviewers }: { reviewersHid
           <button type="button" className="get-started" onClick={() => setDialog('guide')}>
             Get started
           </button>
-          <SearchBox />
           <FilterMenus />
           <SubwayToggle />
         </div>
-        <Chips />
+        <div className="topbar-second">
+          <SearchBox />
+          <Chips />
+        </div>
       </header>
 
       <div className="overlay-left">

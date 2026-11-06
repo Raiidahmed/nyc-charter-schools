@@ -1,0 +1,271 @@
+/* Dialogs: the guide, the reviewers' note and the phone's filters. */
+.dialog {
+  width: min(640px, calc(100% - 32px));
+  max-height: calc(100% - 48px);
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: var(--shadow-lg);
+}
+
+.dialog::backdrop {
+  background: rgb(33 37 41 / 40%);
+}
+
+.dialog-frame {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 48px);
+}
+
+.dialog-header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 12px 12px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dialog-title {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.dialog-body {
+  flex: 1;
+  min-height: 0;
+  padding: 16px 20px 20px;
+  overflow-y: auto;
+}
+
+.dialog-footer {
+  flex: none;
+  border-top: 1px solid var(--border);
+}
+
+.dialog-footer .filter-footer {
+  border-top: 0;
+}
+
+/* Reviewers' note */
+.note-section + .note-section {
+  margin-top: 18px;
+}
+
+.note-section h3 {
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+.note-section p,
+.note-section ul,
+.note-section ol {
+  margin: 6px 0;
+}
+
+.note-section ul,
+.note-section ol {
+  padding-left: 22px;
+}
+
+.note-section li + li {
+  margin-top: 3px;
+}
+
+.assumptions {
+  margin-top: 20px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+}
+
+.assumptions summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.assumption-list {
+  display: grid;
+  gap: 4px;
+  margin: 10px 0 4px;
+}
+
+.assumption-list dt {
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.assumption-list dd {
+  margin: 0;
+  color: var(--text-2);
+}
+
+.note-sources {
+  margin-top: 18px;
+  font-size: 13px;
+}
+
+/* Guide */
+.guide-step {
+  display: grid;
+  gap: 12px;
+}
+
+.guide-lead {
+  color: var(--text-2);
+}
+
+.guide-question {
+  font-size: 17px;
+}
+
+.guide-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.progress {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-strong);
+}
+
+.dot.done {
+  background: #91a7ff;
+}
+
+.dot.current {
+  background: var(--accent);
+}
+
+.guide-count {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.question {
+  display: grid;
+  gap: 12px;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.choices.roles {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.choice {
+  display: grid;
+  gap: 2px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  text-align: left;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.choice:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.choice[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.choice:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.choice-hint {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 12.5px;
+}
+
+.choice.role {
+  padding: 14px;
+}
+
+.question-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.guide-nav {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 4px;
+}
+
+.guide-step .home-control {
+  max-width: none;
+}
+
+.guide-step .chips {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.next-steps {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+}
+
+.next-steps h3 {
+  font-size: 14px;
+}
+
+.next-steps ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.next-steps .links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.next-steps .button {
+  justify-self: start;
+}
+
+/* Phone filters, full screen */
+.filters-section + .filters-section {
+  margin-top: 14px;
+  padding-top: 6px;
+  border-top: 2px solid var(--border);
+}
+
+.filters-section h3 {
+  padding-top: 6px;
+  font-size: 16px;
+}

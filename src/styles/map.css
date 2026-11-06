@@ -1,0 +1,150 @@
+/* Things on the map: controls, the home marker, labels and banners. */
+.app {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.overlay-left {
+  position: absolute;
+  top: calc(var(--bar-bottom) + var(--gap));
+  left: var(--gap);
+  z-index: 10;
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  max-width: 420px;
+}
+
+.reviewers {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.reviewers-open {
+  height: 34px;
+  padding: 0 12px;
+  border: 0;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reviewers-close {
+  display: inline-flex;
+  align-items: center;
+  width: 30px;
+  justify-content: center;
+  border: 0;
+  border-left: 1px solid rgb(255 255 255 / 35%);
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.reviewers-open:hover,
+.reviewers-close:hover {
+  background: var(--accent-dark);
+}
+
+.reviewers-close svg {
+  width: 15px;
+  height: 15px;
+}
+
+.banners {
+  display: grid;
+  gap: 8px;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px 8px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--text);
+  color: #fff;
+  box-shadow: var(--shadow);
+}
+
+.banner .link-button {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.banner.warn {
+  background: #fff4e6;
+  color: #7a3300;
+  border: 1px solid #ffd8a8;
+}
+
+.map-buttons {
+  position: absolute;
+  right: 10px;
+  bottom: 80px;
+  z-index: 5;
+  display: grid;
+  gap: 6px;
+  transition: right 0.2s;
+}
+
+.map-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: 0 0 0 2px rgb(0 0 0 / 10%);
+  cursor: pointer;
+}
+
+.map-button:hover {
+  background: var(--bg-soft);
+}
+
+.map-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* When the panel is open the controls move left so it doesn't cover them. */
+.panel-open .map-buttons,
+.panel-open .maplibregl-ctrl-bottom-right {
+  right: calc(var(--panel-w) + var(--gap) * 2);
+}
+
+.maplibregl-ctrl-bottom-right {
+  transition: right 0.2s;
+}
+
+.home-marker {
+  display: block;
+  cursor: grab;
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 30%));
+}
+
+.home-marker:active {
+  cursor: grabbing;
+}
+
+.dot-label .maplibregl-popup-content {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+}
+
+.dot-label .maplibregl-popup-tip {
+  display: none;
+}

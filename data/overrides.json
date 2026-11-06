@@ -1,0 +1,9 @@
+{
+  "_comment": "Hand fixes applied after the sources are joined, keyed by state school code. Any school field can be set here (for example name, lat, lon, network, phone). Keep a note with each fix.",
+  "schools": {
+    "320700860915": {
+      "name": "Bronx Global Learning Institute for Girls Charter School, the Shirley Rodríguez-Remeneski School",
+      "note": "The state's file drops the í in Rodríguez."
+    }
+  }
+}

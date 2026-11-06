@@ -1,0 +1,254 @@
+/* The floating top bar, the home box and the search box. */
+.topbar {
+  position: absolute;
+  top: var(--gap);
+  left: var(--gap);
+  right: var(--gap);
+  z-index: 20;
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  background: var(--bg);
+  box-shadow: var(--shadow);
+}
+
+.topbar-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* On wide screens the top row never wraps; the address box gives up space first. */
+@media (min-width: 1410px) {
+  .topbar-row {
+    flex-wrap: nowrap;
+  }
+}
+
+.brand {
+  display: flex;
+  flex: none;
+  align-items: baseline;
+  gap: 10px;
+  padding: 0 4px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.methods {
+  font-size: 13px;
+}
+
+/* Home */
+.home-control {
+  position: relative;
+  flex: 1 1 260px;
+  min-width: 150px;
+  max-width: 380px;
+}
+
+.home-input-wrap,
+.home-address {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 4px 0 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text-2);
+}
+
+.home-input-wrap:focus-within {
+  border-color: var(--accent);
+}
+
+.home-input-wrap > svg,
+.home-address > svg,
+.search > svg {
+  flex: none;
+}
+
+.home-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+}
+
+.home-set {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.home-address {
+  flex: 1;
+  min-width: 0;
+  padding-right: 10px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.home-address:hover {
+  border-color: var(--accent);
+}
+
+.home-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.home-district {
+  flex: none;
+  margin-left: auto;
+  padding-left: 6px;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.suggestions {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  margin: 0;
+  padding: 4px;
+  min-width: 280px;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  box-shadow: var(--shadow-lg);
+}
+
+.suggestion {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 9px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.suggestion[aria-selected='true'] {
+  background: var(--accent-soft);
+}
+
+.suggestion-hint {
+  color: var(--muted);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+.field-error {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  z-index: 40;
+  width: max-content;
+  max-width: 320px;
+  padding: 6px 9px;
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  box-shadow: var(--shadow);
+  color: #a61e1e;
+  font-size: 12.5px;
+}
+
+/* Search: an explicit width, or the browser under-measures the bar and wraps the filter buttons. */
+.search {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  width: 230px;
+  height: 36px;
+  padding: 0 4px 0 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text-2);
+}
+
+.search:focus-within {
+  border-color: var(--accent);
+}
+
+.search-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+}
+
+.search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.subway-toggle {
+  flex: none;
+}
+
+/* Chips row */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  padding: 0 6px 0 10px;
+  border: 1px solid #d0dbff;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+}
+
+.chip svg {
+  width: 14px;
+  height: 14px;
+}
+
+.chip-clear {
+  height: 28px;
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  color: var(--text-2);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+}

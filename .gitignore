@@ -1,0 +1,12 @@
+node_modules/
+dist/
+# Raw downloads, never committed
+data/raw/
+# Routing toolchain, inputs and caches (about 2 GB)
+.travel/
+# Smoke test output
+smoke/screenshots/
+*.log
+.DS_Store
+.env
+.env.*

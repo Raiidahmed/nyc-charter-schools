@@ -44,6 +44,8 @@ export interface Explorer {
   select: (id: string) => void;
   closeDetails: () => void;
   backToList: () => void;
+  /** Frames every matching school once the current changes have applied. */
+  frameMatches: () => void;
   lastViewedId: string | null;
   listOpen: boolean;
   setListOpen: (open: boolean) => void;
@@ -218,6 +220,17 @@ export function ExplorerProvider({ data, children }: { data: AppData; children: 
     setListOpen(true);
   }, []);
 
+  // Runs after new filters have applied and the layouts have set the panel padding.
+  const framePending = useRef(false);
+  const frameMatches = useCallback(() => {
+    framePending.current = true;
+  }, []);
+  useEffect(() => {
+    if (!framePending.current) return;
+    framePending.current = false;
+    if (matching.length) camera.fit(matching, 14);
+  }, [matching, camera]);
+
   // Runs after the layouts have applied the new panel padding.
   useEffect(() => {
     const id = focusNext.current;
@@ -266,6 +279,7 @@ export function ExplorerProvider({ data, children }: { data: AppData; children: 
     selected,
     select,
     closeDetails,
+    frameMatches,
     backToList,
     lastViewedId,
     listOpen,

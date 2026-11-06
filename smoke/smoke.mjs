@@ -491,7 +491,13 @@ async function desktop() {
     await page.click('.topbar .chip-clear');
   });
 
-  await step('parent runs the guide', async () => {
+  await step('parent runs the guide, which clears the view and frames the results', async () => {
+    // Start somewhere unhelpful: searching, a school open, zoomed in far away.
+    await typeInto(page, '.search-input', 'hellenic classical staten');
+    await page.keyboard.press('Enter');
+    await page.waitForSelector('.details-name');
+    await idle(page, 400);
+    const zBefore = await zoom(page);
     await page.click('.get-started');
     await page.waitForSelector('dialog[open] .choice.role');
     await snap(page, 'guide-roles');
@@ -512,9 +518,17 @@ async function desktop() {
     await snap(page, 'guide-parent-done');
     await clickText(page, 'dialog .button.primary', 'Show');
     await page.waitForFunction(() => !document.querySelector('dialog[open]'));
-    check(await exists(page, '.panel'), 'list not open behind the guide');
+    await idle(page, 400);
+    check(await exists(page, '.panel .list-title'), 'list not open behind the guide');
+    check(!(await exists(page, '.details-name')), 'a school was still open after the guide');
+    check((await page.$eval('.search-input', (e) => e.value)) === '', 'search not cleared');
+    const n = Number(body.match(/We found (\d+)/)[1]);
+    const heading = await text(page, '.list-title');
+    check(heading === `${n} schools`, `not every match in view after the guide: "${heading}"`);
+    check((await zoom(page)) < zBefore, 'map did not zoom out to the results');
     const sort = await page.$eval('.sort select', (e) => e.value);
     check(['commute', 'distance'].includes(sort), `sort was ${sort}`);
+    await snap(page, 'guide-parent-framed');
     await page.click('.topbar .chip-clear');
   });
 
@@ -528,7 +542,12 @@ async function desktop() {
     const body = await text(page, 'dialog[open]');
     check(body.includes('Queens') && body.includes('Success Academy') && body.includes('data notes'), 'researcher result incomplete');
     await snap(page, 'guide-researcher-done');
+    const found = Number(body.match(/We found (\d+)/)[1]);
     await clickText(page, 'dialog .button.primary', 'Show');
+    await page.waitForFunction(() => !document.querySelector('dialog[open]'));
+    await idle(page, 400);
+    const heading = await text(page, '.list-title');
+    check(heading === `${found} schools`, `not every match in view after the guide: "${heading}"`);
     check((await search(page)).includes('borough=queens'), 'guide filters not applied');
     await page.click('.topbar .chip-clear');
   });
@@ -711,8 +730,13 @@ async function phone() {
     const body = await text(page, 'dialog[open]');
     check(body.includes('Transfer schools') && body.includes('Entering 9th grade'), 'student chips missing');
     await snap(page, 'phone-guide-done');
+    const found = Number(body.match(/We found (\d+)/)[1]);
     await clickText(page, 'dialog .button.primary', 'Show');
     await page.waitForSelector('.list-sheet.open');
+    await idle(page, 500);
+    const heading = await text(page, '.list-sheet .list-title');
+    check(heading === `${found} schools`, `not every match in view after the guide: "${heading}"`);
+    await snap(page, 'phone-guide-framed');
   });
 
   await step('phone: home by address works the same', async () => {

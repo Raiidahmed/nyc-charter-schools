@@ -129,7 +129,7 @@ function NextSteps({ role }: { role: Role }) {
 }
 
 function GuideFlow() {
-  const { home, data, ctx, filters, setFilters, setSort, setQuery, setListOpen, setDialog, matching } = useExplorer();
+  const { home, data, ctx, filters, setFilters, setSort, setQuery, setListOpen, setDialog, matching, closeDetails, frameMatches } = useExplorer();
   const [role, setRole] = useState<Role | null>(null);
   const [answers, setAnswers] = useState<Answers>({});
   const [step, setStep] = useState<Step>({ kind: 'role' });
@@ -145,8 +145,12 @@ function GuideFlow() {
     const result = guideResult(r, a, !!home, filters.commuteMode);
     setFilters(result.filters);
     setSort(result.sort);
+    // Start from a clean view: no open school or search, the list open, and
+    // the map zoomed to show every school that fits.
     setQuery('');
+    closeDetails();
     setListOpen(true);
+    frameMatches();
     setStep({ kind: 'done' });
   };
 

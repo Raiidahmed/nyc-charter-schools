@@ -206,11 +206,12 @@
   flex: none;
 }
 
-/* Second line: the search box, with the active filter chips beside it. */
+/* Second line: the search box and filter buttons, with the active filter chips after them. */
 .topbar-second {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
-  gap: 10px;
+  gap: 8px 10px;
   margin-top: 8px;
   padding-top: 8px;
   border-top: 1px solid var(--border);
@@ -221,7 +222,7 @@
 }
 
 .topbar-second .chips {
-  flex: 1;
+  flex: 1 1 260px;
   min-width: 0;
   min-height: 36px;
   margin-top: 0;

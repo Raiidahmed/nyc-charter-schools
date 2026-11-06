@@ -169,20 +169,24 @@ async function desktop() {
     const h = await page.$eval('.topbar-row', (e) => e.getBoundingClientRect().height);
     check(h <= 40, `top row is ${h}px tall, so it wrapped`);
     check(await exists(page, '.topbar-second .search'), 'search box is not on the second line');
+    check(await exists(page, '.topbar-second .filter-menus'), 'filter buttons are not on the second line');
     await snap(page, 'start');
     await noErrors(page);
   });
 
-  await step('top bar stays on one line at 1410 px and wraps when narrower', async () => {
+  await step('top line stays on one line at 1410 px, and nothing spills out when narrower', async () => {
     await page.setViewport({ width: 1410, height: 900 });
     await new Promise((r) => setTimeout(r, 300));
     const h = await page.$eval('.topbar-row', (e) => e.getBoundingClientRect().height);
     check(h <= 40, `top row wrapped at 1410 px (${h}px)`);
     await page.setViewport({ width: 900, height: 900 });
     await new Promise((r) => setTimeout(r, 300));
-    const h2 = await page.$eval('.topbar-row', (e) => e.getBoundingClientRect().height);
-    check(h2 > 40, 'top row did not wrap at 900 px');
-    await snap(page, 'narrow-wraps');
+    const spill = await page.$eval('.topbar', (bar) => {
+      const right = bar.getBoundingClientRect().right;
+      return [...bar.querySelectorAll('.topbar-row > *, .topbar-second > *, .filter-button')].filter((e) => e.getBoundingClientRect().right > right + 0.5).map((e) => e.className);
+    });
+    check(spill.length === 0, `spills past the top bar at 900 px: ${spill.join(', ')}`);
+    await snap(page, 'narrow-900');
     await page.setViewport({ width: 1440, height: 900 });
     await idle(page, 400);
   });

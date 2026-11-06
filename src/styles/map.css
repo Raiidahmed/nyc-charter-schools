@@ -2,7 +2,10 @@
 .app {
   position: relative;
   height: 100%;
+  /* clip, not hidden: a hidden overflow can still be scrolled from script,
+     which would push the whole app off screen. */
   overflow: hidden;
+  overflow: clip;
 }
 
 .overlay-left {

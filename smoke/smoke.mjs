@@ -114,7 +114,6 @@ async function clickText(page, selector, text) {
     (sel, t) => {
       const el = [...document.querySelectorAll(sel)].find((e) => e.textContent.replace(/\s+/g, ' ').trim().includes(t) && e.getClientRects().length > 0);
       if (!el) return false;
-      el.scrollIntoView({ block: 'nearest' });
       el.click();
       return true;
     },
@@ -635,6 +634,43 @@ async function phone() {
     check(ok, 'close button scrolled away');
     await snap(page, 'phone-details-scrolled');
     await page.click('.details-sheet .details-bar .icon-button');
+  });
+
+  await step('phone: Back to list and reopening the list leave the page in place', async () => {
+    const shifted = () =>
+      page.evaluate(() => ({
+        frames: [...document.querySelectorAll('.app, .sheet, body, html')].filter((e) => e.scrollTop !== 0).map((e) => e.className || e.tagName),
+        top: Math.round(document.querySelector('.phone-top').getBoundingClientRect().top),
+      }));
+    await page.tap('[aria-label="Zoom to every matching school"]');
+    await idle(page, 300);
+    if (!(await exists(page, '.list-sheet.open'))) await page.tap('.phone-show-list');
+    await page.waitForSelector('.list-sheet.open');
+    await page.waitForFunction(() => document.querySelectorAll('.list-sheet .row').length >= 8);
+    await page.$eval('.list-sheet .list-scroll', (e) => e.scrollTo(0, 400));
+    await page.tap('.list-sheet li:nth-child(8) .row');
+    await page.waitForSelector('.details-sheet.open .details-name');
+    await new Promise((r) => setTimeout(r, 400));
+    await page.tap('.details-sheet .back');
+    await page.waitForSelector('.list-sheet.open .row-recent');
+    await new Promise((r) => setTimeout(r, 400));
+    let s = await shifted();
+    check(s.frames.length === 0 && s.top === 8, `page moved after Back to list: ${JSON.stringify(s)}`);
+    const rowInView = await page.$eval('.list-sheet .row-recent', (row) => {
+      const box = row.closest('.list-scroll').getBoundingClientRect();
+      const r = row.getBoundingClientRect();
+      return r.top >= box.top - 1 && r.bottom <= box.bottom + 1;
+    });
+    check(rowInView, 'the school just viewed is not in view in the list');
+    await snap(page, 'phone-back-to-list');
+    await page.tap('.list-sheet .list-header .icon-button');
+    await new Promise((r) => setTimeout(r, 400));
+    await page.tap('.phone-show-list');
+    await page.waitForSelector('.list-sheet.open');
+    await new Promise((r) => setTimeout(r, 400));
+    s = await shifted();
+    check(s.frames.length === 0 && s.top === 8, `page moved after reopening the list: ${JSON.stringify(s)}`);
+    await page.tap('.list-sheet .list-header .icon-button');
   });
 
   await step('phone: search with Enter puts the keyboard away', async () => {

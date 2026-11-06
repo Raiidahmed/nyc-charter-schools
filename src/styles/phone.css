@@ -103,6 +103,7 @@
   transform: translateY(105%);
   transition: transform 0.25s ease;
   overflow: hidden;
+  overflow: clip;
 }
 
 .sheet.open {

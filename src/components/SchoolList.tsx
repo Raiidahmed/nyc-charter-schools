@@ -76,12 +76,18 @@ export function SchoolList({ hidden }: { hidden: boolean }) {
   const someOffScreen = inViewCount < matching.length;
 
   // "Back to list" returns to the same scroll position, with the school you
-  // just looked at in view.
+  // just looked at in view. Only the list itself scrolls: scrollIntoView would
+  // also scroll the page around a phone sheet that's still sliding in.
   useLayoutEffect(() => {
     const el = scrollRef.current;
     if (!el || hidden) return;
     el.scrollTop = saved.current;
-    if (lastViewedId) el.querySelector<HTMLElement>(`[data-id="${lastViewedId}"]`)?.scrollIntoView({ block: 'nearest' });
+    const row = lastViewedId ? el.querySelector<HTMLElement>(`[data-id="${lastViewedId}"]`) : null;
+    if (!row) return;
+    const top = row.getBoundingClientRect().top - el.getBoundingClientRect().top + el.scrollTop;
+    const bottom = top + row.offsetHeight;
+    if (top < el.scrollTop) el.scrollTop = top;
+    else if (bottom > el.scrollTop + el.clientHeight) el.scrollTop = bottom - el.clientHeight;
   }, [hidden, lastViewedId]);
 
   return (
